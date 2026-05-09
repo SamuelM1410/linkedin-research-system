@@ -1,0 +1,33 @@
+# Private/local browser data
+.linkedin-private-browser-profile/
+
+# Generated research outputs that may contain company-specific notes
+ANALYSIS_OUTPUT/
+DEEP_RESEARCH_*
+FAST_PUBLIC_RESEARCH_*
+LIVE_PRIVATE_BROWSER_RESEARCH_LOG.md
+MARKET_VALIDATION_SNAPSHOT.md
+N8N_*
+TWO_N8N_*
+PRIVATE_BROWSER_*
+
+# Local scripts / browser automation helpers
+launch_private_linkedin_browser.sh
+connect_private_browser.sh
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Secrets
+.env
+.env.*
+*.key
+*.pem

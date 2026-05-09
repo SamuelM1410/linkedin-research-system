@@ -1,0 +1,33 @@
+Industry,LinkedIn Area,Search Query,Signal Type,Likely Problem,Likely Automation Offer
+Dental/Clinic,Jobs,Receptionist dental clinic,Job post,Manual appointment calls and reminders,Appointment intake + reminders + missed-call follow-up
+Dental/Clinic,Jobs,Patient coordinator scheduling,Job post,Patient scheduling and record updates,Patient intake + calendar + CRM update
+Dental/Clinic,Posts,"missed calls" clinic,Post,Lost patient calls,Missed-call SMS/email follow-up system
+Real Estate,Jobs,Real estate appointment setter,Job post,Manual lead follow-up,Lead capture + CRM + follow-up reminders
+Real Estate,Posts,"lead follow up" real estate,Post,Slow follow-up on leads,Instant lead response + CRM pipeline
+Real Estate,Posts,"CRM" "real estate",Post,Disorganized sales pipeline,CRM setup + automated task reminders
+Restaurant/Catering,Posts,"catering quote" restaurant,Post,Manual quote requests,Quote request form + automatic estimate workflow
+Restaurant/Catering,Posts,"online orders" "manual",Post,Manual order handling,Order form + dashboard + notifications
+Restaurant/Catering,Jobs,Restaurant admin assistant,Job post,Admin and scheduling work,Admin workflow automation
+Recruiting,Jobs,Recruiting coordinator,Job post,Manual candidate scheduling,Candidate intake + screening + calendar automation
+Recruiting,Posts,"candidate screening" recruiting,Post,Manual applicant review,Applicant form + automatic scoring
+Recruiting,Posts,"interview scheduling" recruiter,Post,Back-and-forth scheduling,Calendar booking automation
+Logistics,Jobs,Dispatch coordinator,Job post,Manual dispatch and tracking,Dispatch dashboard + status notifications
+Logistics,Posts,"dispatch spreadsheet" logistics,Post,Spreadsheet-based operations,Spreadsheet to dashboard automation
+Logistics,Jobs,Operations assistant logistics,Job post,Manual updates and communication,Operations tracker + automated alerts
+Construction/Home Services,Jobs,Office manager construction,Job post,Manual estimates/invoices/scheduling,Quote + scheduling + invoice reminder system
+Construction/Home Services,Posts,"quote request" contractor,Post,Manual estimate requests,Website form + automatic quote intake
+Construction/Home Services,Posts,"missed calls" contractor,Post,Lost jobs from unanswered calls,Missed-call follow-up automation
+E-commerce,Jobs,Ecommerce customer service representative,Job post,Manual support tickets,FAQ chatbot + ticket categorization
+E-commerce,Posts,"inventory spreadsheet" ecommerce,Post,Manual inventory tracking,Inventory dashboard + reorder alerts
+E-commerce,Posts,"returns customer service" ecommerce,Post,Manual returns process,Returns intake form + status emails
+Gyms/Fitness,Jobs,Gym receptionist,Job post,Manual bookings and member questions,Class booking + FAQ automation
+Gyms/Fitness,Posts,"new members" gym onboarding,Post,Manual onboarding,Member onboarding email/SMS sequence
+Beauty/Med Spa,Jobs,Salon receptionist,Job post,Manual appointment booking,Booking + reminder + no-show reduction workflow
+Beauty/Med Spa,Posts,"fully booked" salon,Post,Scheduling bottleneck,Waitlist + automated reminders
+Accounting,Jobs,Billing specialist,Job post,Manual invoice/payment follow-up,Invoice reminder automation
+Accounting,Posts,"accounts receivable" small business,Post,Payment delays,Payment reminders + AR dashboard
+General SMB,Jobs,Administrative Assistant,Job post,Manual admin/data entry,Form + spreadsheet + email automation
+General SMB,Jobs,Customer Service Representative,Job post,Repeated customer questions,FAQ chatbot + ticket triage
+General SMB,Posts,"we are growing" "operations",Growth signal,Processes breaking during growth,Operations dashboard + workflow automation
+General SMB,Posts,"too many emails" company,Post,Inbox overload,Email classification + auto routing
+General SMB,Posts,"spreadsheet" "operations",Post,Manual tracking,Dashboard + automated updates

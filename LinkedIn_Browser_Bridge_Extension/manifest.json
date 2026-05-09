@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn Automation Opportunity Bridge",
+  "version": "1.0.0",
+  "description": "Extract visible LinkedIn page text from your own browser and turn it into an automation opportunity CSV row.",
+  "permissions": ["activeTab", "scripting", "clipboardWrite", "downloads"],
+  "host_permissions": ["https://www.linkedin.com/*", "https://*.linkedin.com/*"],
+  "action": {
+    "default_title": "Analyze LinkedIn page",
+    "default_popup": "popup.html"
+  }
+}

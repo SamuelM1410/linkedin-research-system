@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkedIn Automation Opportunity Finder</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel2: #1e293b;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --brand: #38bdf8;
+      --brand2: #22c55e;
+      --danger: #fb7185;
+      --warning: #facc15;
+      --border: rgba(148, 163, 184, 0.25);
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, rgba(56,189,248,.18), transparent 35%), var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a { color: var(--brand); }
+    header {
+      padding: 44px 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .container { max-width: 1180px; margin: 0 auto; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.4fr .9fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(15,23,42,.7);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    h1 { font-size: clamp(32px, 6vw, 60px); line-height: 1.02; margin: 16px 0; letter-spacing: -0.04em; }
+    h2 { font-size: 26px; margin: 0 0 12px; letter-spacing: -0.02em; }
+    h3 { margin: 0 0 8px; }
+    p { color: var(--muted); margin: 0 0 14px; }
+    .hero-card, section, .card {
+      background: linear-gradient(180deg, rgba(30,41,59,.92), rgba(17,24,39,.92));
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.22);
+    }
+    .hero-card { padding: 22px; }
+    main { padding: 24px 20px 60px; }
+    section { padding: 24px; margin: 20px 0; }
+    .grid { display: grid; gap: 16px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card { padding: 18px; }
+    .card p { font-size: 14px; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,.7);
+      color: #cbd5e1;
+      font-size: 13px;
+    }
+    .offer {
+      border-left: 4px solid var(--brand2);
+    }
+    .warning-box {
+      border: 1px solid rgba(250,204,21,.35);
+      background: rgba(250,204,21,.08);
+      padding: 14px;
+      border-radius: 16px;
+      color: #fde68a;
+      margin-top: 14px;
+    }
+    label { display: block; color: #cbd5e1; font-size: 13px; margin-bottom: 6px; }
+    input, select, textarea {
+      width: 100%;
+      background: rgba(15,23,42,.85);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      padding: 11px 12px;
+      outline: none;
+      font: inherit;
+    }
+    textarea { min-height: 86px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(56,189,248,.14); }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .span-2 { grid-column: span 2; }
+    .span-4 { grid-column: span 4; }
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      color: #06121f;
+      background: var(--brand);
+      font-weight: 800;
+    }
+    button.secondary { background: #334155; color: var(--text); border: 1px solid var(--border); }
+    button.green { background: var(--brand2); color: #052e16; }
+    button.red { background: var(--danger); color: #450a0a; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .score-box {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .score-item {
+      background: rgba(15,23,42,.7);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 12px;
+      text-align: center;
+    }
+    .score-item strong { display: block; font-size: 26px; color: var(--white); }
+    table { width: 100%; border-collapse: collapse; min-width: 980px; }
+    th, td { padding: 11px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; font-size: 14px; }
+    th { color: #bfdbfe; background: rgba(15,23,42,.7); position: sticky; top: 0; }
+    td { color: #dbeafe; }
+    .table-wrap { overflow: auto; border: 1px solid var(--border); border-radius: 16px; }
+    .priority-high { color: #86efac; font-weight: 800; }
+    .priority-medium { color: #fde68a; font-weight: 800; }
+    .priority-low { color: #fdba74; font-weight: 800; }
+    .priority-ignore { color: #fda4af; font-weight: 800; }
+    .muted { color: var(--muted); }
+    .template-output {
+      white-space: pre-wrap;
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      color: #dbeafe;
+    }
+    footer { padding: 30px 20px 60px; color: var(--muted); text-align: center; }
+
+    @media (max-width: 900px) {
+      .hero, .grid-2, .grid-3, .form-grid, .score-box { grid-template-columns: 1fr; }
+      .span-2, .span-4 { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container hero">
+      <div>
+        <span class="badge">LinkedIn research → business pain → automation offer</span>
+        <h1>Automation Opportunity Finder</h1>
+        <p>Use public LinkedIn posts, jobs, and company pages to find companies that already reveal repetitive work. Score the opportunity, generate a specific offer, and export your leads.</p>
+        <div class="warning-box">
+          <strong>Important:</strong> This tool does not access private LinkedIn data. Use it ethically: research public information, do not scrape aggressively, do not bypass LinkedIn limits, and do not spam.
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>What you are selling</h3>
+        <p>You are not selling “AI” in a generic way. You are selling simple business fixes:</p>
+        <div class="pill-row">
+          <span class="pill">Save admin time</span>
+          <span class="pill">Follow up leads</span>
+          <span class="pill">Reduce missed calls</span>
+          <span class="pill">Organize spreadsheets</span>
+          <span class="pill">Send reminders</span>
+          <span class="pill">Create dashboards</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="linkedin-access">
+      <h2>Before everything: LinkedIn access</h2>
+      <p><strong>Reality:</strong> I do not have your personal LinkedIn account or a complete LinkedIn database. LinkedIn does not give normal users full access to all company/job/post data, and mass scraping can get accounts restricted.</p>
+      <p>This tool is built to work with real data in safe ways:</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Option 1 — Manual LinkedIn Research</h3>
+          <p>You log into LinkedIn yourself, search jobs/posts/company pages, then paste the evidence here. Safest and easiest way to start.</p>
+        </div>
+        <div class="card">
+          <h3>Option 2 — CSV Import</h3>
+          <p>If you collect leads in Google Sheets, Apollo, Clay, Sales Navigator notes, or any legal data source, export CSV and import it into this tool.</p>
+        </div>
+        <div class="card">
+          <h3>Option 3 — Official API</h3>
+          <p>LinkedIn APIs require an approved LinkedIn developer app and permissions. They usually do not provide complete public search data.</p>
+        </div>
+        <div class="card">
+          <h3>Option 4 — Browser-Assisted Workflow</h3>
+          <p>You can stay logged in on your own browser and use this tool as a research workspace. Do not share passwords. Do not automate mass scraping.</p>
+        </div>
+      </div>
+      <div class="warning-box">
+        <strong>Best plan:</strong> Start with manual LinkedIn Jobs + public posts, save 20-50 real companies, then use the scoring system to contact only the strongest opportunities.
+      </div>
+    </section>
+
+    <section id="offers">
+      <h2>What We Offer: Simple Automations Companies Actually Need</h2>
+      <p>Use these offers when you find a company with a visible problem. Start small. Sell one workflow first.</p>
+      <div class="grid grid-3">
+        <div class="card offer">
+          <h3>Lead Follow-Up Automation</h3>
+          <p>New inquiry → CRM/sheet → instant reply → follow-up reminders.</p>
+          <p><strong>Best for:</strong> real estate, agencies, home services, clinics.</p>
+          <p><strong>Price:</strong> $300-$900 setup + $50-$150/month.</p>
+        </div>
+        <div class="card offer">
+          <h3>Appointment Reminder System</h3>
+          <p>Booking form/calendar → email/SMS/WhatsApp reminders → no-show tracking.</p>
+          <p><strong>Best for:</strong> dental, clinics, salons, gyms.</p>
+          <p><strong>Price:</strong> $300-$1,000 setup + $50-$200/month.</p>
+        </div>
+        <div class="card offer">
+          <h3>Admin Intake Automation</h3>
+          <p>Forms collect data → automatic spreadsheet/CRM update → team notification.</p>
+          <p><strong>Best for:</strong> any company hiring admin assistants.</p>
+          <p><strong>Price:</strong> $250-$800 setup + $50-$150/month.</p>
+        </div>
+        <div class="card offer">
+          <h3>Invoice Reminder Automation</h3>
+          <p>Invoice due date → automatic payment reminders → payment status dashboard.</p>
+          <p><strong>Best for:</strong> accounting, services, construction, agencies.</p>
+          <p><strong>Price:</strong> $300-$900 setup + $50-$150/month.</p>
+        </div>
+        <div class="card offer">
+          <h3>Customer Support FAQ Bot</h3>
+          <p>Common questions → chatbot/auto-reply → route complex cases to humans.</p>
+          <p><strong>Best for:</strong> e-commerce, clinics, restaurants, local services.</p>
+          <p><strong>Price:</strong> $400-$1,200 setup + $75-$250/month.</p>
+        </div>
+        <div class="card offer">
+          <h3>Operations Dashboard</h3>
+          <p>Spreadsheet/forms/tools → clean dashboard showing tasks, leads, orders, or inventory.</p>
+          <p><strong>Best for:</strong> logistics, restaurants, e-commerce, operations teams.</p>
+          <p><strong>Price:</strong> $500-$1,500 setup + $100-$300/month.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="filters">
+      <h2>LinkedIn Filters / Searches</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Job title filters</h3>
+          <div class="pill-row">
+            <span class="pill">Administrative Assistant</span>
+            <span class="pill">Operations Assistant</span>
+            <span class="pill">Customer Service Representative</span>
+            <span class="pill">Appointment Setter</span>
+            <span class="pill">Receptionist</span>
+            <span class="pill">Office Manager</span>
+            <span class="pill">Inventory Coordinator</span>
+            <span class="pill">Billing Specialist</span>
+            <span class="pill">Dispatcher</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Pain keyword filters</h3>
+          <div class="pill-row">
+            <span class="pill">manual process</span>
+            <span class="pill">spreadsheet</span>
+            <span class="pill">data entry</span>
+            <span class="pill">too many emails</span>
+            <span class="pill">missed calls</span>
+            <span class="pill">lead follow up</span>
+            <span class="pill">appointment reminders</span>
+            <span class="pill">CRM</span>
+            <span class="pill">invoice reminders</span>
+            <span class="pill">we are growing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="browser-assisted">
+      <h2>Browser-Assisted LinkedIn Analyzer</h2>
+      <p>Use this when you are looking at a real LinkedIn job post, company page, or public post. Copy the visible page text, paste it here, and the tool will detect pain signals and suggest an automation offer.</p>
+      <div class="warning-box">
+        <strong>Safe workflow:</strong> You control the browser and login. This tool only analyzes text you paste or CSV files you import. Do not paste private messages, passwords, or sensitive personal data.
+      </div>
+      <div class="form-grid" style="margin-top:14px;">
+        <div class="span-2">
+          <label>Company Name</label>
+          <input id="analyzeCompany" placeholder="Company name from LinkedIn" />
+        </div>
+        <div class="span-2">
+          <label>LinkedIn URL</label>
+          <input id="analyzeUrl" placeholder="Paste current LinkedIn URL" />
+        </div>
+        <div class="span-4">
+          <label>Paste LinkedIn page/job/post text</label>
+          <textarea id="pageText" style="min-height:170px" placeholder="Open a LinkedIn job/post/company page → select visible text → copy → paste here..."></textarea>
+        </div>
+        <div class="span-4 actions">
+          <button type="button" class="green" onclick="analyzePageText()">Analyze Text + Fill Form</button>
+          <button type="button" class="secondary" onclick="document.getElementById('pageText').value=''">Clear Text</button>
+        </div>
+      </div>
+      <div id="analysisOutput" class="template-output" style="margin-top:14px;">Paste LinkedIn text and click “Analyze Text + Fill Form”.</div>
+    </section>
+
+    <section id="calculator">
+      <h2>Company Research + Scoring Calculator</h2>
+      <p>Add a company when you find evidence on LinkedIn. The tool calculates priority automatically and saves it in your browser.</p>
+
+      <form id="companyForm" class="form-grid">
+        <div>
+          <label>Company Name</label>
+          <input id="company" required placeholder="Example Dental Clinic" />
+        </div>
+        <div>
+          <label>Industry</label>
+          <select id="industry">
+            <option>Clinic/Dental</option>
+            <option>Real Estate</option>
+            <option>Restaurant/Catering</option>
+            <option>Recruiting</option>
+            <option>Logistics</option>
+            <option>Construction/Home Services</option>
+            <option>E-commerce</option>
+            <option>Gym/Fitness</option>
+            <option>Beauty/Med Spa</option>
+            <option>Accounting</option>
+            <option>General SMB</option>
+          </select>
+        </div>
+        <div>
+          <label>Location</label>
+          <input id="location" placeholder="City / Country" />
+        </div>
+        <div>
+          <label>Evidence Type</label>
+          <select id="evidenceType">
+            <option>Job post</option>
+            <option>Company post</option>
+            <option>Founder post</option>
+            <option>Hiring trend</option>
+            <option>Company page</option>
+            <option>Website evidence</option>
+          </select>
+        </div>
+        <div class="span-2">
+          <label>LinkedIn Evidence URL</label>
+          <input id="evidenceUrl" placeholder="https://linkedin.com/..." />
+        </div>
+        <div>
+          <label>Decision Maker Name</label>
+          <input id="decisionName" placeholder="Owner / Manager" />
+        </div>
+        <div>
+          <label>Decision Maker Title</label>
+          <input id="decisionTitle" placeholder="Founder, Owner, COO..." />
+        </div>
+        <div class="span-4">
+          <label>Exact Pain Signal Quote</label>
+          <textarea id="painQuote" placeholder="Copy the exact public sentence from the job post or LinkedIn post..."></textarea>
+        </div>
+        <div>
+          <label>Pain Category</label>
+          <select id="painCategory">
+            <option>Admin</option>
+            <option>Scheduling</option>
+            <option>Customer Support</option>
+            <option>Lead Follow-Up</option>
+            <option>CRM</option>
+            <option>Inventory</option>
+            <option>Invoice/Billing</option>
+            <option>Recruiting/HR</option>
+            <option>Operations</option>
+            <option>Growth Bottleneck</option>
+          </select>
+        </div>
+        <div class="span-2">
+          <label>Automation Idea</label>
+          <input id="automationIdea" placeholder="Lead capture + CRM + automatic follow-up reminders" />
+        </div>
+        <div>
+          <label>Status</label>
+          <select id="status">
+            <option>Not contacted</option>
+            <option>Contacted</option>
+            <option>Replied</option>
+            <option>Report sent</option>
+            <option>Call booked</option>
+            <option>Proposal sent</option>
+            <option>Won</option>
+            <option>Lost</option>
+            <option>Follow up later</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Repetition Score (0-2)</label>
+          <select id="repScore"><option>0</option><option>1</option><option selected>2</option></select>
+        </div>
+        <div>
+          <label>Cost/Revenue Impact (0-2)</label>
+          <select id="impactScore"><option>0</option><option>1</option><option selected>2</option></select>
+        </div>
+        <div>
+          <label>Simple Automation Fit (0-2)</label>
+          <select id="fitScore"><option>0</option><option>1</option><option selected>2</option></select>
+        </div>
+        <div>
+          <label>SMB Fit (0-1)</label>
+          <select id="smbScore"><option>0</option><option selected>1</option></select>
+        </div>
+        <div>
+          <label>Decision Maker Clear (0-1)</label>
+          <select id="decisionScore"><option>0</option><option selected>1</option></select>
+        </div>
+        <div>
+          <label>Recency Score (0-2)</label>
+          <select id="recencyScore"><option>0</option><option>1</option><option selected>2</option></select>
+        </div>
+        <div class="span-2">
+          <label>Next Action</label>
+          <input id="nextAction" placeholder="Send LinkedIn message / create report / follow up" />
+        </div>
+        <div class="span-4 actions">
+          <button type="submit" class="green">Add Company</button>
+          <button type="button" class="secondary" onclick="generateMessage()">Generate Outreach Message</button>
+          <button type="button" class="secondary" onclick="exportCSV()">Export CSV</button>
+          <button type="button" class="red" onclick="clearAll()">Clear All Saved Companies</button>
+        </div>
+      </form>
+
+      <div class="score-box">
+        <div class="score-item"><span class="muted">Current Total</span><strong id="liveScore">10</strong></div>
+        <div class="score-item"><span class="muted">Priority</span><strong id="livePriority">🔥 High</strong></div>
+        <div class="score-item"><span class="muted">Contact Rule</span><strong>7+</strong></div>
+        <div class="score-item"><span class="muted">First Offer</span><strong>Report</strong></div>
+      </div>
+    </section>
+
+    <section id="message">
+      <h2>Generated Outreach Message</h2>
+      <div id="messageOutput" class="template-output">Fill the form and click “Generate Outreach Message”.</div>
+      <div class="actions">
+        <button type="button" onclick="copyMessage()">Copy Message</button>
+      </div>
+    </section>
+
+    <section id="companies">
+      <h2>Saved Companies</h2>
+      <div class="actions">
+        <button type="button" class="secondary" onclick="renderTable('all')">Show All</button>
+        <button type="button" class="secondary" onclick="renderTable('high')">Show 🔥 High Only</button>
+        <button type="button" class="secondary" onclick="renderTable('not-contacted')">Show Not Contacted</button>
+        <button type="button" class="secondary" onclick="document.getElementById('csvImport').click()">Import CSV</button>
+        <input id="csvImport" type="file" accept=".csv" style="display:none" onchange="importCSV(event)" />
+      </div>
+      <br />
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Priority</th>
+              <th>Score</th>
+              <th>Company</th>
+              <th>Industry</th>
+              <th>Pain</th>
+              <th>Automation Idea</th>
+              <th>Decision Maker</th>
+              <th>Status</th>
+              <th>Evidence</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="companyRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built for small automation agencies: research first, specific offer second, sell small pilots.
+  </footer>
+
+  <script>
+    const fields = ["company", "industry", "location", "evidenceType", "evidenceUrl", "decisionName", "decisionTitle", "painQuote", "painCategory", "automationIdea", "status", "repScore", "impactScore", "fitScore", "smbScore", "decisionScore", "recencyScore", "nextAction"];
+    const scoreFields = ["repScore", "impactScore", "fitScore", "smbScore", "decisionScore", "recencyScore"];
+    let companies = JSON.parse(localStorage.getItem("automationCompanies") || "[]");
+
+    function getVal(id) { return document.getElementById(id).value.trim(); }
+    function num(id) { return Number(getVal(id) || 0); }
+    function totalScoreFromForm() { return scoreFields.reduce((sum, id) => sum + num(id), 0); }
+    function priority(score) {
+      if (score >= 8) return "🔥 High";
+      if (score >= 6) return "✅ Medium";
+      if (score >= 4) return "⚠️ Low";
+      return "❌ Ignore";
+    }
+    function priorityClass(p) {
+      if (p.includes("High")) return "priority-high";
+      if (p.includes("Medium")) return "priority-medium";
+      if (p.includes("Low")) return "priority-low";
+      return "priority-ignore";
+    }
+    function updateLiveScore() {
+      const score = totalScoreFromForm();
+      document.getElementById("liveScore").textContent = score;
+      document.getElementById("livePriority").textContent = priority(score);
+    }
+    scoreFields.forEach(id => document.getElementById(id).addEventListener("change", updateLiveScore));
+
+    document.getElementById("companyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const item = {};
+      fields.forEach(id => item[id] = getVal(id));
+      item.totalScore = totalScoreFromForm();
+      item.priority = priority(item.totalScore);
+      item.createdAt = new Date().toISOString();
+      companies.unshift(item);
+      localStorage.setItem("automationCompanies", JSON.stringify(companies));
+      renderTable();
+      generateMessage();
+      this.reset();
+      document.getElementById("repScore").value = "2";
+      document.getElementById("impactScore").value = "2";
+      document.getElementById("fitScore").value = "2";
+      document.getElementById("smbScore").value = "1";
+      document.getElementById("decisionScore").value = "1";
+      document.getElementById("recencyScore").value = "2";
+      updateLiveScore();
+    });
+
+    function analyzePageText() {
+      const text = getVal("pageText");
+      if (!text) return alert("Paste LinkedIn page text first.");
+      const lower = text.toLowerCase();
+      const companyName = getVal("analyzeCompany");
+      const url = getVal("analyzeUrl");
+
+      const categories = [
+        { name: "Scheduling", words: ["appointment", "schedule", "calendar", "booking", "rescheduling", "no-show", "reminder", "receptionist", "patient coordinator"], idea: "Appointment intake + calendar booking + automatic reminders + missed-call follow-up" },
+        { name: "Lead Follow-Up", words: ["lead", "follow up", "sales pipeline", "inbound", "prospect", "appointment setter", "crm", "quote request", "proposal"], idea: "Lead capture + CRM update + instant reply + automatic follow-up reminders" },
+        { name: "Admin", words: ["administrative", "admin", "data entry", "spreadsheet", "excel", "google sheets", "copy", "records", "documents", "office manager"], idea: "Admin intake form + automatic spreadsheet/CRM updates + team notifications" },
+        { name: "Customer Support", words: ["customer support", "customer service", "support tickets", "emails", "inquiries", "faq", "chat", "response time", "phone calls"], idea: "FAQ auto-reply/chatbot + ticket categorization + human handoff dashboard" },
+        { name: "Invoice/Billing", words: ["invoice", "billing", "accounts receivable", "payment", "overdue", "bookkeeping", "receipts", "collections"], idea: "Invoice tracking + automatic payment reminders + accounts receivable dashboard" },
+        { name: "Inventory", words: ["inventory", "stock", "warehouse", "fulfillment", "purchase order", "reorder", "stockout", "supply chain"], idea: "Inventory tracker + reorder alerts + operations dashboard" },
+        { name: "Recruiting/HR", words: ["candidate", "recruiting", "interview", "applications", "onboarding", "screening", "new hire", "hr assistant"], idea: "Candidate intake + automatic screening + interview scheduling workflow" },
+        { name: "Operations", words: ["operations", "workflow", "process", "manual", "bottleneck", "dispatch", "coordinator", "reports", "tracking"], idea: "Operations dashboard + automated task/status updates + alerts" }
+      ];
+
+      const matches = categories.map(cat => {
+        const found = cat.words.filter(w => lower.includes(w));
+        return { ...cat, count: found.length, found };
+      }).sort((a,b) => b.count - a.count);
+      const best = matches[0];
+      const second = matches[1];
+
+      const jobSignals = ["responsibilities", "qualifications", "we are hiring", "apply", "job", "full-time", "part-time", "role", "position"];
+      const evidenceType = jobSignals.some(w => lower.includes(w)) ? "Job post" : "Company post";
+      const growth = ["we are growing", "growing", "expanding", "new location", "busy season", "high demand", "scaling"].some(w => lower.includes(w));
+      const repetitive = ["daily", "weekly", "manage", "coordinate", "respond", "update", "track", "process", "data entry", "schedule", "follow up"].some(w => lower.includes(w));
+      const revenueImpact = ["lead", "sales", "customer", "appointment", "payment", "invoice", "missed", "response time", "no-show"].some(w => lower.includes(w));
+      const automationFit = ["email", "spreadsheet", "crm", "calendar", "form", "calls", "messages", "invoice", "report", "dashboard"].some(w => lower.includes(w));
+
+      const quote = extractBestSentence(text, [...best.words, ...(second?.words || [])]);
+      const suggestedScore = {
+        rep: repetitive ? 2 : 1,
+        impact: revenueImpact ? 2 : 1,
+        fit: automationFit ? 2 : 1,
+        smb: 1,
+        decision: 0,
+        recency: growth || evidenceType === "Job post" ? 2 : 1
+      };
+
+      if (companyName) document.getElementById("company").value = companyName;
+      if (url) document.getElementById("evidenceUrl").value = url;
+      document.getElementById("evidenceType").value = evidenceType;
+      document.getElementById("painQuote").value = quote || text.slice(0, 280);
+      document.getElementById("painCategory").value = best.name;
+      document.getElementById("automationIdea").value = best.idea;
+      document.getElementById("repScore").value = String(suggestedScore.rep);
+      document.getElementById("impactScore").value = String(suggestedScore.impact);
+      document.getElementById("fitScore").value = String(suggestedScore.fit);
+      document.getElementById("smbScore").value = String(suggestedScore.smb);
+      document.getElementById("decisionScore").value = String(suggestedScore.decision);
+      document.getElementById("recencyScore").value = String(suggestedScore.recency);
+      document.getElementById("nextAction").value = "Find decision maker, then send personalized LinkedIn message";
+      updateLiveScore();
+      generateMessage();
+
+      const total = totalScoreFromForm();
+      document.getElementById("analysisOutput").textContent = `Detected category: ${best.name}\nMatched keywords: ${best.found.join(", ") || "none"}\nSecondary category: ${second?.name || "None"}\nEvidence type: ${evidenceType}\nSuggested automation: ${best.idea}\nSuggested score: ${total}/10 (${priority(total)})\n\nBest evidence sentence:\n“${quote || "No clean sentence detected. Use the most specific sentence from the page."}”`;
+    }
+
+    function extractBestSentence(text, keywords) {
+      const clean = text.replace(/\s+/g, " ").trim();
+      const sentences = clean.match(/[^.!?\n]{35,260}[.!?]?/g) || [];
+      let bestSentence = "";
+      let bestScore = 0;
+      for (const sentence of sentences) {
+        const s = sentence.toLowerCase();
+        const score = keywords.reduce((sum, word) => sum + (s.includes(word) ? 1 : 0), 0);
+        if (score > bestScore) { bestScore = score; bestSentence = sentence.trim(); }
+      }
+      return bestSentence;
+    }
+
+    function generateMessage() {
+      const company = getVal("company") || "[Company]";
+      const name = getVal("decisionName") || "[Name]";
+      const quote = getVal("painQuote") || "[specific LinkedIn signal]";
+      const idea = getVal("automationIdea") || "[specific automation idea]";
+      const pain = getVal("painCategory") || "[pain point]";
+      const evidenceType = getVal("evidenceType") || "LinkedIn signal";
+      const message = `Hi ${name}, I saw this ${evidenceType.toLowerCase()} from ${company}:\n\n“${quote}”\n\nThat usually means there may be repetitive work around ${pain.toLowerCase()}.\n\nOne simple automation idea: ${idea}.\n\nIf useful, I can send you a free 1-page automation opportunity report showing where this could save time. No pressure.`;
+      document.getElementById("messageOutput").textContent = message;
+    }
+
+    function copyMessage() {
+      const text = document.getElementById("messageOutput").textContent;
+      navigator.clipboard.writeText(text).then(() => alert("Message copied."));
+    }
+
+    function renderTable(filter = "all") {
+      const tbody = document.getElementById("companyRows");
+      tbody.innerHTML = "";
+      let rows = [...companies];
+      if (filter === "high") rows = rows.filter(c => c.totalScore >= 8);
+      if (filter === "not-contacted") rows = rows.filter(c => c.status === "Not contacted");
+      rows.sort((a,b) => b.totalScore - a.totalScore);
+      if (!rows.length) {
+        tbody.innerHTML = `<tr><td colspan="10" class="muted">No companies saved yet.</td></tr>`;
+        return;
+      }
+      rows.forEach((c, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="${priorityClass(c.priority)}">${escapeHtml(c.priority)}</td>
+          <td>${escapeHtml(String(c.totalScore))}</td>
+          <td><strong>${escapeHtml(c.company)}</strong><br><span class="muted">${escapeHtml(c.location || "")}</span></td>
+          <td>${escapeHtml(c.industry)}</td>
+          <td><strong>${escapeHtml(c.painCategory)}</strong><br><span class="muted">${escapeHtml((c.painQuote || "").slice(0, 120))}</span></td>
+          <td>${escapeHtml(c.automationIdea)}</td>
+          <td>${escapeHtml(c.decisionName || "-")}<br><span class="muted">${escapeHtml(c.decisionTitle || "")}</span></td>
+          <td>${escapeHtml(c.status)}</td>
+          <td>${c.evidenceUrl ? `<a href="${escapeAttr(c.evidenceUrl)}" target="_blank">Open</a>` : "-"}</td>
+          <td><button class="secondary" onclick="deleteCompany(${companies.indexOf(c)})">Delete</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function deleteCompany(index) {
+      if (!confirm("Delete this company?")) return;
+      companies.splice(index, 1);
+      localStorage.setItem("automationCompanies", JSON.stringify(companies));
+      renderTable();
+    }
+
+    function clearAll() {
+      if (!confirm("This will delete all saved companies in this browser. Continue?")) return;
+      companies = [];
+      localStorage.removeItem("automationCompanies");
+      renderTable();
+    }
+
+    function exportCSV() {
+      const headers = ["Company", "Industry", "Location", "Evidence Type", "Evidence URL", "Pain Quote", "Pain Category", "Automation Idea", "Decision Maker", "Decision Maker Title", "Status", "Total Score", "Priority", "Next Action"];
+      const rows = companies.map(c => [c.company, c.industry, c.location, c.evidenceType, c.evidenceUrl, c.painQuote, c.painCategory, c.automationIdea, c.decisionName, c.decisionTitle, c.status, c.totalScore, c.priority, c.nextAction]);
+      const csv = [headers, ...rows].map(row => row.map(v => `"${String(v ?? "").replaceAll('"', '""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "linkedin_automation_opportunities.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [], value = "", inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+        if (char === '"' && inQuotes && next === '"') { value += '"'; i++; continue; }
+        if (char === '"') { inQuotes = !inQuotes; continue; }
+        if (char === ',' && !inQuotes) { row.push(value); value = ""; continue; }
+        if ((char === '\n' || char === '\r') && !inQuotes) {
+          if (char === '\r' && next === '\n') i++;
+          row.push(value); rows.push(row); row = []; value = ""; continue;
+        }
+        value += char;
+      }
+      if (value || row.length) { row.push(value); rows.push(row); }
+      return rows.filter(r => r.some(cell => String(cell).trim() !== ""));
+    }
+
+    function importCSV(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const rows = parseCSV(String(reader.result || ""));
+        if (rows.length < 2) return alert("CSV needs a header row and at least one data row.");
+        const headers = rows[0].map(h => h.trim().toLowerCase());
+        const find = (row, names) => {
+          for (const name of names) {
+            const index = headers.findIndex(h => h === name || h.includes(name));
+            if (index >= 0) return row[index] || "";
+          }
+          return "";
+        };
+        const imported = rows.slice(1).map(row => {
+          const score = Number(find(row, ["total score", "score"])) || 0;
+          const item = {
+            company: find(row, ["company", "company name", "account"]),
+            industry: find(row, ["industry"]),
+            location: find(row, ["location", "city", "country"]),
+            evidenceType: find(row, ["evidence type", "source type"]) || "Imported CSV",
+            evidenceUrl: find(row, ["evidence url", "linkedin", "url"]),
+            decisionName: find(row, ["decision maker", "name", "contact"]),
+            decisionTitle: find(row, ["title", "decision maker title"]),
+            painQuote: find(row, ["pain quote", "pain signal", "quote", "evidence"]),
+            painCategory: find(row, ["pain category", "category"]) || "Operations",
+            automationIdea: find(row, ["automation idea", "offer", "solution"]),
+            status: find(row, ["status"]) || "Not contacted",
+            repScore: "0", impactScore: "0", fitScore: "0", smbScore: "0", decisionScore: "0", recencyScore: "0",
+            totalScore: score,
+            priority: priority(score),
+            nextAction: find(row, ["next action", "action"]),
+            createdAt: new Date().toISOString()
+          };
+          if (!item.totalScore) {
+            item.totalScore = 6;
+            item.priority = priority(6);
+          }
+          return item;
+        }).filter(item => item.company);
+        companies = [...imported, ...companies];
+        localStorage.setItem("automationCompanies", JSON.stringify(companies));
+        renderTable();
+        alert(`Imported ${imported.length} companies.`);
+        event.target.value = "";
+      };
+      reader.readAsText(file);
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? "").replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[c]));
+    }
+    function escapeAttr(str) { return escapeHtml(str).replace(/`/g, "&#96;"); }
+
+    updateLiveScore();
+    renderTable();
+  </script>
+</body>
+</html>
